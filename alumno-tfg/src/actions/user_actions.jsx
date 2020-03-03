@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {NEW_USER} from './constants';
+import {NEW_USER, GET_USERS} from './constants';
 
 export const newUser = user => dispatch => {
     const username = user.username;
@@ -8,13 +8,25 @@ export const newUser = user => dispatch => {
 
     axios.post('/admin/create', {username, password, email})
     .then(res => {
-        console.log("My data", res.data)
+        console.log("Created")
     })
 }
 
 export const getUsers = () => dispatch => {
     axios.get('/admin/index')
     .then(res => {
-        console.log(res.data)
+        
+        dispatch({
+            type: GET_USERS,
+            payload: res.data
+        })
+    })
+}
+
+export const deleteUser = (id, history) => dispatch => {
+    axios.delete('/admin/view/'+id)
+    .then(res => {
+        console.log("Deleted")
+        history.push('/admin')
     })
 }

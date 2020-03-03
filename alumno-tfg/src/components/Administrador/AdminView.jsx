@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
 
 import PropTypes from 'prop-types'
-import axios from 'axios';
+//import axios from 'axios';
 import {withRouter} from 'react-router-dom';
 
 import {connect} from 'react-redux';
@@ -12,18 +12,6 @@ class AdminView extends React.Component {
     constructor(props){
         super(props);
     }
-
-    // componentDidMount(){
-    //     if(!this.props.login.authenticated){
-    //         this.props.history.push('/');
-    //     }
-    // }
-
-    // componentWillReceiveProps(nextProps){
-    //     if(!nextProps.login.authenticated){
-    //         this.props.history.push('/')
-    //     }
-    // }
 
     render() {
         return(

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types'
-import axios from 'axios';
+//import axios from 'axios';
 import {withRouter} from 'react-router-dom';
 
-import {Router, Switch, Route, Link, Redirect} from 'react-router-dom';
+//import {Router, Switch, Route, Link, Redirect} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 

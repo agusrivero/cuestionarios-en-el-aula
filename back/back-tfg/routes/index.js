@@ -61,7 +61,7 @@ router.get('/admin/index', userController.index);
 router.get('/admin/view/:id(\\d+)',sessionController.adminOrMyselfRequired, userController.viewUser);
 router.get('/admin/view/:id(\\d+)/edit', userController.editUser);
 router.put('/admin/view/:id(\\d+)/edit', userController.edit);
-router.delete('/admin/view/:id(\\d+)', sessionController.adminRequired, userController.deleteUser);
+router.delete('/admin/view/:id(\\d+)', userController.deleteUser);
 
 //routes for /user
 router.get('/user/:id(\\d+)', userController.viewUser);

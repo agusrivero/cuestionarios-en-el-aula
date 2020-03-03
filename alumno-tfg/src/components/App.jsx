@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux';
 
-import {history} from '../helpers/history';
+import history from '../history';
 
 import{setUser} from '../actions/login_action';
 
@@ -41,7 +41,7 @@ export default class App extends React.Component{
     render() {
         return(
             <Provider store={store}>
-                <Router>
+                <Router history={history}>
                   <Navbar/>
                   <Route exact path="/" component={Login}/>
                     <Switch>

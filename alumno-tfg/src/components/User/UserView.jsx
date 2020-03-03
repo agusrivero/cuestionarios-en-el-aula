@@ -8,9 +8,9 @@ import {connect} from 'react-redux';
 
 
 class UserView extends React.Component {
-    constructor(props){
+    /*constructor(props){
         super(props);
-    }
+    }*/
 
     // componentDidMount(){
     //     if(!this.props.login.authenticated){
