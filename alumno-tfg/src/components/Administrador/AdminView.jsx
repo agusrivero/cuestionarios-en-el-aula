@@ -7,31 +7,31 @@ import {withRouter} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
-import { logoutUser } from '../../actions/login_action';
 
 class AdminView extends React.Component {
     constructor(props){
         super(props);
-        this.logout = this.logout.bind(this)
     }
 
+    // componentDidMount(){
+    //     if(!this.props.login.authenticated){
+    //         this.props.history.push('/');
+    //     }
+    // }
 
-    logout(){
-        this.props.logoutUser();
-        this.props.history.push('/')
-    }
-
-    componentDidMount(){
-        // console.log(this.props.login)
-    }
+    // componentWillReceiveProps(nextProps){
+    //     if(!nextProps.login.authenticated){
+    //         this.props.history.push('/')
+    //     }
+    // }
 
     render() {
         return(
             <div className="hola">
                 <div>Admin View</div>
-                <Link to="/edit">Edit</Link>
+                <Link to="/edit">Edit User</Link>
                 <Link to="/admin/new">Create User</Link>
-                <button onClick={this.logout}></button>
+                <Link to="/users">View Users</Link>
             </div>
 
         );
@@ -40,7 +40,6 @@ class AdminView extends React.Component {
 
 
 AdminView.propTypes = {
-    logoutUser: PropTypes.func.isRequired,
     login: PropTypes.object.isRequired,
     // errors: PropTypes.object.isRequired
 }
@@ -50,4 +49,4 @@ const mapStateToProps = state => ({
 //   errors: state.errors
 });
 
-export default connect(mapStateToProps, {logoutUser})(withRouter(AdminView));
+export default connect(mapStateToProps)(withRouter(AdminView));

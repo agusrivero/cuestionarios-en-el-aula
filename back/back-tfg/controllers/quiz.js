@@ -2,6 +2,11 @@ const Sequelize = require("sequelize");
 const {models} = require("../models");
 const url = require('url');
 
+exports.allowConections = (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+}
+
 exports.index = (req, res, next) => {
     const id = req.session.user.id;
     models.user.findByPk(id)

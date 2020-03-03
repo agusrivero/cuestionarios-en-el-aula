@@ -16,7 +16,9 @@ export const loginUser = user => dispatch => {
                 username: res.data.username,
                 isAdmin: res.data.isAdmin
             }
+            
         }
+        localStorage.setItem("session", JSON.stringify(session))
         dispatch(setUser(session.user));
     })
 }
@@ -24,7 +26,7 @@ export const loginUser = user => dispatch => {
 export const setUser = user => {
     return {
         type: SET_USER,
-        payload: {user}
+        payload: user
     }
 }
 

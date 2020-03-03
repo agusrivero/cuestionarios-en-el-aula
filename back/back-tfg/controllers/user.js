@@ -2,6 +2,11 @@ const Sequelize = require("sequelize");
 const {models} = require("../models");
 const url = require('url');
 
+exports.allowConections = (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    next();
+}
+
 exports.newUser = (req, res, next) => {
     res.render('admin/new');
 }

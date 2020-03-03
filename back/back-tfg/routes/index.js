@@ -56,7 +56,7 @@ router.get('/:id(\\d+)/edit', userController.viewUser);
 
 //routes for /admin
 router.get('/admin/create', sessionController.adminRequired, userController.newUser);
-router.post('/admin/create', sessionController.adminRequired, userController.createUser);
+router.post('/admin/create', userController.createUser);
 router.get('/admin/index', userController.index);
 router.get('/admin/view/:id(\\d+)',sessionController.adminOrMyselfRequired, userController.viewUser);
 router.get('/admin/view/:id(\\d+)/edit', userController.editUser);

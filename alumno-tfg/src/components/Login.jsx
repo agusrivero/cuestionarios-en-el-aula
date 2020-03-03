@@ -25,28 +25,24 @@ class Login extends Component {
 
   componentDidMount(){
     if(this.props.login.authenticated){
+        let session = JSON.parse(localStorage.session);
         if(this.props.login.user.isAdmin){
             this.props.history.push('/admin')
         }else{
             this.props.history.push('/user')
         }
     }
-    console.log(localStorage)
-    // axios.get('/login')
   }
 
   componentWillReceiveProps(nextProps){
     if(nextProps.login.authenticated){
-        if(this.props.login.user.isAdmin){
+        let session = JSON.parse(localStorage.session);
+        if(session.user.isAdmin){
             this.props.history.push('/admin')
         }else{
             this.props.history.push('/user')
         }
-        
     }
-    // if(nextProps.errors){
-    //     this.setState({errors: nextProps.errors})
-    // }
   }
 
   login(e){
@@ -56,37 +52,10 @@ class Login extends Component {
         password: this.state.password
     };
     this.props.loginUser(user)
-    console.log(this.props.login)
-    // axios.post('http://localhost:5000/login', {username, password})
-    // .then(res => {
-    //     console.log(res.data)
-    //     this.props.dispatch(login(res.data))
-    //     console.log("My State", this.props.user.isAdmin)
-    //     if(res.data !== false){
-    //         if(res.data.isAdmin){
-    //             this.setState({isAdmin: true});
-    //         }else{
-    //             this.setState({isUser: true})
-    //         }
-    //     }
-    // })
   }
   
 
   render(){
-    // if (this.props.logged){
-    //     if(this.props.user.isAdmin){
-    //         return <Redirect to="/admin"/>;
-    //     }else{
-    //         return <Redirect to="/user"/>;
-    //     }
-    // }
-    // if (this.state.isAdmin){
-    //     return <Redirect to="/admin"/>;
-    // }
-    // if (this.state.isUser){
-    //     return <Redirect to="/user"/>;
-    // }
     return (
       <div className="mainScreen">
       <form onSubmit={this.login}>
@@ -94,7 +63,6 @@ class Login extends Component {
         <input type="text" onChange={(e) => this.setState({username: e.target.value})}/>
         <label>Password:</label>
         <input type="text" onChange={(e) => this.setState({password: e.target.value})}/>
-        {/* <button type="submit" onClick={this.login}>Login</button> */}
         <input type="submit" value="Login"/>
       </form>
         
@@ -107,13 +75,11 @@ class Login extends Component {
 
 Login.propTypes = {
     loginUser: PropTypes.func.isRequired,
-    login: PropTypes.object.isRequired,
-    // errors: PropTypes.object.isRequired
+    login: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  login: state.login,
-//   errors: state.errors
+  login: state.login
 });
 
 export default connect(mapStateToProps, {loginUser})(withRouter(Login));

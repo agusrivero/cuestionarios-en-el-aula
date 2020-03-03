@@ -11,6 +11,9 @@ import AdminView from '../components/Administrador/AdminView';
 import UserView from '../components/User/UserView';
 import EditView from '../components/EditView';
 import NewUser from '../components/Administrador/NewUser';
+import Navbar from './Navbar';
+import RutaPrivada from './comun/RutaPrivada';
+import ViewUsers from './Administrador/ViewUsers';
 
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 
@@ -39,12 +42,14 @@ export default class App extends React.Component{
         return(
             <Provider store={store}>
                 <Router>
+                  <Navbar/>
+                  <Route exact path="/" component={Login}/>
                     <Switch>
-                        <Route exact path="/" component={Login}/>
-                        <Route exact path="/admin" component={AdminView}/>
-                        <Route exact path="/user" component={UserView}/>
-                        <Route exact path="/edit" component={EditView}/>
-                        <Route exact path="/admin/new" component={NewUser}/>
+                        <RutaPrivada exact path="/admin" component={AdminView}/>
+                        <RutaPrivada exact path="/user" component={UserView}/>
+                        <RutaPrivada exact path="/edit" component={EditView}/>
+                        <RutaPrivada exact path="/admin/new" component={NewUser}/>
+                        <RutaPrivada extact path="/users" component={ViewUsers}/>
                     </Switch>
                 </Router>
                 
