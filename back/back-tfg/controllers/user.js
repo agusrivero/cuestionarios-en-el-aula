@@ -77,29 +77,22 @@ exports.editUser = (req, res, next) => {
 
     models.user.findByPk(id)
     .then(user => {
-        res.render('admin/edit', {user});
+        //res.render('admin/edit', {user});
+        res.send(user);
     })
     .catch(error => next(error));
 }
 
 exports.edit = (req, res, next) => {
     const id = req.params.id;
-    const {username, email, password} = req.body;
-
+    const {username, email} = req.body;
     models.user.findByPk(id)
     .then(user => {
         user.username = username;
         user.email = email;
-        user.password = password
         user.save({fields: ["username", "password", "email", "salt"]})
         .then(user => {
-            if(user.isAdmin){
-                // res.redirect('/admin/view/'+user.id);
-                res.send(true)
-            }else{
-                // res.redirect('/user/'+user.id);
-                res.send(false)
-            }
+            res.send(user)
             
         })
     })

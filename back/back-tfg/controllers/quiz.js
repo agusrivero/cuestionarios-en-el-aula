@@ -8,22 +8,17 @@ exports.allowConections = (req, res, next) => {
 }
 
 exports.index = (req, res, next) => {
-    const id = req.session.user.id;
+    
+    const id = req.params.id;
     models.user.findByPk(id)
     .then(user => {
         const userId = user.id;
         models.quiz.findAll({where: {userId}})
         .then(quizzes => {
-            res.render('user/quizzes', {quizzes})
+            res.send(quizzes)
         })
     })
     .catch(error => next(error))
-    // const userId = req.session.user.id;
-    // models.quiz.findAll({where:userId})
-    // .then(quizzes => {
-    //     res.render('user/quizzes', {quizzes})
-    // })
-    // .catch(error => next(error))
 };
 
 exports.newQuiz = (req, res, next) => {
@@ -31,21 +26,21 @@ exports.newQuiz = (req, res, next) => {
 }
 
 exports.createQuiz = (req, res, next) => {
-    const {quizName, questionNumber} = req.body;
+    const {quizName, ownerId} = req.body;
     const accessId = Math.floor(Math.random() * 10000);
-    const questionsLeft = questionNumber;
-
+    
     const quiz = models.quiz.build({
         accessId: accessId,
         name: quizName,
-        questionNumber: questionNumber,
-        userId: req.session.user.id
+        questionNumber: 10,
+        userId: ownerId
     })
 
     quiz.save()
     .then(quiz => {
         // res.redirect('/view/quizzes')
-        res.render('user/questions/new', {quiz, questionsLeft})
+        //res.render('user/questions/new', {quiz, questionsLeft})
+        res.send(quiz)
     })
 }
 
@@ -54,7 +49,7 @@ exports.deleteQuiz = (req, res, next) => {
     models.quiz.findByPk(quizId)
     .then(quiz => {
         quiz.destroy()
-        res.redirect('/view/quizzes')
+        res.send(true)
     })
     .catch(error => next(error))
 }

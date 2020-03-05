@@ -59,14 +59,14 @@ router.get('/admin/create', sessionController.adminRequired, userController.newU
 router.post('/admin/create', userController.createUser);
 router.get('/admin/index', userController.index);
 router.get('/admin/view/:id(\\d+)',sessionController.adminOrMyselfRequired, userController.viewUser);
-router.get('/admin/view/:id(\\d+)/edit', userController.editUser);
-router.put('/admin/view/:id(\\d+)/edit', userController.edit);
+router.get('/get/:id(\\d+)', userController.editUser);
+router.put('/edit/:id(\\d+)', userController.edit);
 router.delete('/admin/view/:id(\\d+)', userController.deleteUser);
 
 //routes for /user
 router.get('/user/:id(\\d+)', userController.viewUser);
 router.get('/create/quiz', quizController.newQuiz);
-router.get('/view/quizzes', quizController.index);
+router.get('/view/quizzes/:id(\\d+)', quizController.index);
 router.get('/quiz/:id(\\d+)/view', quizController.viewQuiz);
 router.post('/create/quiz', quizController.createQuiz);
 router.delete('/quiz/:id(\\d+)/delete', quizController.deleteQuiz);

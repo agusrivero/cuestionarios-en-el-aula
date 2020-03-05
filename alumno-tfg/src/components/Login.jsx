@@ -37,9 +37,11 @@ class Login extends Component {
   componentWillReceiveProps(nextProps){
     if(nextProps.login.authenticated){
         let session = JSON.parse(localStorage.session);
+        console.log("Mi usuarios", session.user)
         if(session.user.isAdmin){
             this.props.history.push('/admin')
-        }else{
+        }
+        else{
             this.props.history.push('/user')
         }
     }

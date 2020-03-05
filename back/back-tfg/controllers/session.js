@@ -123,7 +123,7 @@ const authenticate = (username, password) => {
 
 
 
-// GET /session   -- Login form
+// GET /login   -- Login form
 exports.new = (req, res, next) => {
 
     console.log("entrando al servidor")
@@ -132,7 +132,8 @@ exports.new = (req, res, next) => {
     
     authenticate(username, password)
     .then(user => {
-        res.redirect('/user/'+user.id);
+        //res.redirect('/user/'+user.id);
+        res.send(true);
     })
     .catch(error => next(error))
 
@@ -140,7 +141,7 @@ exports.new = (req, res, next) => {
 };
 
 
-// POST /session   -- Create the session if the user authenticates successfully
+// POST /login   -- Create the session if the user authenticates successfully
 exports.create = (req, res, next) => {
 
     const username = req.body.username;

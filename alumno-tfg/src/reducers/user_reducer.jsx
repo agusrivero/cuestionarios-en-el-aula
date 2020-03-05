@@ -1,6 +1,7 @@
-import {GET_USERS} from '../actions/constants';
+import {GET_USERS, GET_USER} from '../actions/constants';
 
 const intialState = {
+    user: {},
     users: []
 }
 
@@ -10,6 +11,11 @@ export default function(state = intialState, action){
             return {
                 ...state,
                 users: action.payload
+            }
+        case GET_USER:
+            return {
+                ...state,
+                user: action.payload
             }
         default:
             return state;

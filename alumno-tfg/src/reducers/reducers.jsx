@@ -1,10 +1,12 @@
 import {combineReducers} from 'redux';
 import loginReducer from './login_reducer'
 import userReducer from './user_reducer'
+import quizReducer from './quiz_reducer'
 
 const GlobalState = (combineReducers({
     login: loginReducer,
-    user: userReducer
+    user: userReducer,
+    quiz: quizReducer
 }))
 
 export default GlobalState;

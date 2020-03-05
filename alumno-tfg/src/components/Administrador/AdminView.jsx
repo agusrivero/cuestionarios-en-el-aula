@@ -13,11 +13,13 @@ class AdminView extends React.Component {
         super(props);
     }
 
+
     render() {
+        let editLink = "/edit/"+this.props.login.user.id;
         return(
             <div className="hola">
                 <div>Admin View</div>
-                <Link to="/edit">Edit User</Link>
+                <Link to={editLink}>Edit User</Link>
                 <Link to="/admin/new">Create User</Link>
                 <Link to="/users">View Users</Link>
             </div>

@@ -3,7 +3,7 @@ import React from 'react';
 
 import PropTypes from 'prop-types'
 //import axios from 'axios';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
@@ -28,14 +28,15 @@ class ViewUsers extends React.Component {
     }
 
     render() {
-        
         const users = this.props.user.users;
         console.log(users)
         const userList = users.map((user) => {
+            const editLink = "/edit/"+user.id
             return(
                 <li key={user.id}>
                     {user.username}
                     <button onClick={(e) => this.deleteUser(user.id, e)}>Click</button>
+                    <Link to={editLink}>Edit</Link>
                 </li>
                 
             )

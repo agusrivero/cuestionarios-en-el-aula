@@ -11,10 +11,11 @@ export const loginUser = user => dispatch => {
     axios.post('/login', {username, password})
     .then(res => {
         const session = {
-            id: res.data.id,
+            
             user: {
                 username: res.data.username,
-                isAdmin: res.data.isAdmin
+                isAdmin: res.data.isAdmin,
+                id: res.data.id
             }
             
         }
@@ -24,10 +25,19 @@ export const loginUser = user => dispatch => {
 }
 
 export const setUser = user => {
+    if(user.username === undefined){
+        return {
+            type: SET_USER,
+            payload: {}
+        }
+        
+    }
     return {
         type: SET_USER,
         payload: user
     }
+    
+    
 }
 
 export const logoutUser = () => dispatch => {
