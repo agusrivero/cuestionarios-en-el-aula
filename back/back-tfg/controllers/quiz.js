@@ -60,7 +60,7 @@ exports.viewQuiz = (req, res, next) => {
     .then(quiz => {
         models.pregunta.findAll({where: quiz.id})
         .then(preguntas => {
-            res.render('user/quiz', {quiz, preguntas})
+            res.send({quiz, preguntas})
         })
         
     })

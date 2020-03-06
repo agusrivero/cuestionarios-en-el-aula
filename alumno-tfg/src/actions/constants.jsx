@@ -6,3 +6,5 @@ export const GET_USER = 'GET_USER'
 
 export const SET_QUIZ = 'SET_QUIZ'
 export const GET_QUIZZES = 'GET_QUIZZES'
+
+export const SET_QUESTION = 'SET_QUESTION'

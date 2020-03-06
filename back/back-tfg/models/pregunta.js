@@ -9,14 +9,14 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.STRING,
                 validate: {notEmpty: {msg: "Answer must not be empty"}}
             },
-            answer_incorrect_1: {
+            answer_incorrect1: {
                 type: DataTypes.STRING,
                 validate: {notEmpty: {msg: "Answer must not be empty"}}
             },
-            answer_incorrect_2: {
+            answer_incorrect2: {
                 type: DataTypes.STRING,
             },
-            answer_incorrect_3: {
+            answer_incorrect3: {
                 type: DataTypes.STRING,
             }
         });

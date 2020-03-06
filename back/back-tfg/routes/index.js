@@ -72,6 +72,9 @@ router.post('/create/quiz', quizController.createQuiz);
 router.delete('/quiz/:id(\\d+)/delete', quizController.deleteQuiz);
 
 //rooutes for /quiz
-router.post('/:id(\\d+)/new/question/:left(\\d+)', preguntaController.newQuestion);
+router.post('/new/question/:id(\\d+)', preguntaController.newQuestion);
+
+//routes for /question
+router.get('/quiz/:id(\\d+)/questions', preguntaController.index)
 
 module.exports = router;

@@ -12,33 +12,35 @@ import {getQuizzes, deleteQuiz} from '../../actions/quiz_actions'
 class ViewQuizzes extends React.Component {
     constructor(props){
         super(props);
-        this.deleteQuizzes = this.deleteQuizzes.bind(this)
+        this.deleteQuizzes = this.deleteQuizzes.bind(this);
     }
 
     componentDidMount(){
         const id = this.props.match.params.id;
-        this.props.getQuizzes(id)
+        this.props.getQuizzes(id);
+    }
+
+    componentWillReceiveProps(nextProps){
+        const id = this.props.match.params.id;
+        nextProps.getQuizzes(id);
     }
 
     deleteQuizzes(id, e){
         e.preventDefault();
         console.log(id)
         this.props.deleteQuiz(id);
-        //this.props.history.push('/users');
-        window.location.reload();
+        this.props.history.push('/user/quizzes/'+this.props.login.user.id);
     }
 
     render() {
-        console.log("Hola")
         const quizzes = this.props.quiz.quizzes;
-        console.log("Mis quizzes",quizzes)
         const quizList = quizzes.map((quiz) => {
-            //const editLink = "/edit/"+user.id
+            const viewLink = '/view/quiz/'+quiz.id
             return(
                 <li key={quiz.id}>
                     {quiz.name}
                     <button onClick={(e) => this.deleteQuizzes(quiz.id, e)}>Delete</button>
-                    
+                    <Link to={viewLink}>See</Link>
                 </li>
                 
             )

@@ -18,6 +18,8 @@ import ViewUsers from './Administrador/ViewUsers';
 import EditUser from './Administrador/EditUser';
 import CreateQuiz from './User/CreateQuiz';
 import ViewQuizzes from './User/ViewQuizzes';
+import AddQuestions from './User/AddQuestions';
+import ViewQuiz from './User/ViewQuiz';
 
 
 if(localStorage.session){
@@ -47,6 +49,8 @@ export default class App extends React.Component{
                         <RutaPrivada extact path="/users" component={ViewUsers}/>
                         <RutaPrivada extact path="/new/quiz" component={CreateQuiz}/>
                         <RutaPrivada extact path="/user/quizzes/:id" component={ViewQuizzes}/>
+                        <RutaPrivada exact path="/quiz/:id/add" component={AddQuestions}/>
+                        <RutaPrivada extact path="/view/quiz/:id" component={ViewQuiz}/>
                     </Switch>
                 </Router>
                 

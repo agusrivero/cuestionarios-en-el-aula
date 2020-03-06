@@ -30,7 +30,8 @@ class CreateQuiz extends React.Component {
         e.preventDefault();
         const quizName = this.state.quiz;
         const owner = this.state.owner;
-        this.props.createQuiz(quizName, owner)
+        this.props.createQuiz(quizName, owner, this.props.history)
+        
     }
 
     render() {
