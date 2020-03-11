@@ -28,6 +28,7 @@ class AddQuestion extends React.Component {
         this.props.newQuestion(this.props.quiz.quiz.id, question, this.props.history)  
     }
     render() {
+        const numberQuestions = this.props.quiz.quiz.questionNumber;
         return(
             <div className="">
                 <div>Create User</div>

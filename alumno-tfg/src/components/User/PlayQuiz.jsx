@@ -7,53 +7,76 @@ import {withRouter, Link} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
-import {getQuiz, deleteQuiz} from '../../actions/quiz_actions'
-import {deleteQuestion} from '../../actions/question_actions'
+import {getQuiz, startQuiz} from '../../actions/quiz_actions'
 
-class ViewQuiz extends React.Component {
+class PlayQuiz extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            id: 0,
-            quizId: 0
+            quizName: "",
+            accessId: 0,
+            questions: [],
+            alumnos: [],
+            started: false
         }
         //this.deleteQuizzes = this.deleteQuizzes.bind(this);
-        this.delQuestion = this.delQuestion.bind(this)
+        this.startQuiz = this.startQuiz.bind(this)
     }
 
     componentDidMount(){
         
         const id = this.props.match.params.id;
         this.props.getQuiz(id);
-        console.log("Mi quiz: ", this.props.quiz)
-        //this.props.getQuestions(id);
+        this.props.startQuiz(id)
     }
 
     componentWillReceiveProps(nextProps){
         const id = this.props.match.params.id;
         nextProps.getQuiz(id);
+        this.setState({
+            quizName: nextProps.quiz.quiz.name,
+            accessId: nextProps.quiz.quiz.accessId,
+            questions: nextProps.questions.preguntas,
+            alumnos: nextProps.quiz.quiz.alumnos
+        })
         
     }
 
-    /*deleteQuizzes(id, e){
-        e.preventDefault();
-        console.log(id)
-        this.props.deleteQuiz(id);
-        this.props.history.push('/user/quizzes/'+this.props.login.user.id);
-    }*/
-
-    delQuestion(id,e){
-        const quizId = this.props.match.params.id
-        this.props.deleteQuestion(id, quizId);
-        //console.log(id)
-        //console.log(quizId)
+    startQuiz(){
+        this.setState({
+            started: true
+        })
+        
     }
 
     render() {
+        const alumnos = this.state.alumnos;
+        const alumnosList = alumnos.map((alumno) => {
+            return(
+                <li>{alumno.username}</li>
+            )
+        })
+        if(!this.state.started){
+            return(
+                <div className="">
+                    <div>Quiz: {this.state.quizName}</div>
+                    <ul>{this.state.accessId}</ul>
+                    <button onClick={this.startQuiz}>Start</button>
+                    <ul>{alumnosList}</ul>
+                </div>
+    
+            );
+        }else{
+            return(
+                <div className="">
+                    <div>QEmpezado</div>
+                    
+                </div>
+    
+            );
+        }
         //console.log("Mis preguntas: ",this.props.questions)
-        const pr = this.props.questions.preguntas;
-        //const pr = this.props.quiz.quiz.pregunta;
-        //const pr = this.state.preguntas;
+        /*const pr = this.props.questions.preguntas;
         const preguntasList = pr.map((pregunta) => {
             const editLink = '/edit/question/'+pregunta.id
             return(
@@ -81,15 +104,14 @@ class ViewQuiz extends React.Component {
                 <Link to={playLink}>Play</Link>
             </div>
 
-        );
+        );*/
     }
 }
 
 
-ViewQuiz.propTypes = {
+PlayQuiz.propTypes = {
     getQuiz: PropTypes.func.isRequired,
-    deleteQuestion: PropTypes.func.isRequired,
-    //deleteQuiz: PropTypes.func.isRequired,
+    startQuiz: PropTypes.func.isRequired,
     match: PropTypes.object.isRequired,
     questions: PropTypes.object.isRequired,
     quiz: PropTypes.object.isRequired,
@@ -103,4 +125,4 @@ const mapStateToProps = state => ({
     login: state.login
 });
 
-export default connect(mapStateToProps, {getQuiz, deleteQuestion})(withRouter(ViewQuiz));
+export default connect(mapStateToProps, {getQuiz, startQuiz})(withRouter(PlayQuiz));

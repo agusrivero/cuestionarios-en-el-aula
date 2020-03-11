@@ -5,6 +5,7 @@ const sessionController = require("../controllers/session");
 const userController = require("../controllers/user");
 const quizController = require("../controllers/quiz");
 const preguntaController = require("../controllers/pregunta");
+const alumnoController = require("../controllers/alumno");
 
 router.all('*', sessionController.deleteExpiredUserSession);
 
@@ -73,8 +74,18 @@ router.delete('/quiz/:id(\\d+)/delete', quizController.deleteQuiz);
 
 //rooutes for /quiz
 router.post('/new/question/:id(\\d+)', preguntaController.newQuestion);
+router.get('/quiz/alumnos', quizController.viewAlumnos);
+router.post('/quiz/start/:id(\\d+)', quizController.startQuiz)
+router.get('/quiz/started/:accessId(\\d+)', quizController.checkStarted)
 
 //routes for /question
-router.get('/quiz/:id(\\d+)/questions', preguntaController.index)
+router.get('/quiz/:id(\\d+)/questions', preguntaController.index);
+router.delete('/quiz/:quizId(\\d+)/delete/question/:id(\\d+)', preguntaController.deleteQuestion)
+router.put('/edit/question/:id(\\d+)', preguntaController.editQuestion)
+router.get('/get/question/:id(\\d+)', preguntaController.getQuestion)
+
+
+//routes for /alumno
+router.post('/alumno/join', alumnoController.joinQuiz)
 
 module.exports = router;

@@ -8,11 +8,11 @@ module.exports = function (sequelize, DataTypes) {
             name: {
                 type: DataTypes.STRING,
                 unique: true,
-                validate: {notEmpty: {msg: "Username must not be empty."}}
+                validate: {notEmpty: {msg: "Name must not be empty."}}
             },
-            questionNumber: {
-                type: DataTypes.STRING,
-                default: 0
+            started: {
+                type: DataTypes.BOOLEAN,
+                defaultValue: false
             }
         });
 };

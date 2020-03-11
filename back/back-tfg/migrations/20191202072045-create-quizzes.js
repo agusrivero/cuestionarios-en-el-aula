@@ -13,8 +13,8 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
-      questionNumber:{
-        type: Sequelize.STRING
+      started:{
+        type: Sequelize.BOOLEAN
       },  
       createdAt: {
         allowNull: false,

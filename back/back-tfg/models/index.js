@@ -26,16 +26,21 @@ sequelize.import(path.join(__dirname,'user'));
 // Session
 sequelize.import(path.join(__dirname,'session'));
 
+//Alumno
+sequelize.import(path.join(__dirname, 'alumno'));
+
 
 // Relation between models
 
-const {quiz, pregunta, user} = sequelize.models;
+const {quiz, pregunta, user, alumno} = sequelize.models;
 
 user.hasMany(quiz, {foreingKey: 'userId'});
 quiz.belongsTo(user, {as: 'user', foreingKey: 'userId'});
 
 pregunta.belongsTo(quiz, {as:'quiz', foreingKey: 'quizId'});
 quiz.hasMany(pregunta, {foreingKey: 'quizId'});
+
+quiz.hasMany(alumno, {foreingKey: 'quizId'});
 
 // Relation 1-to-N between User and Quiz:
 // quiz.belongsTo(user);

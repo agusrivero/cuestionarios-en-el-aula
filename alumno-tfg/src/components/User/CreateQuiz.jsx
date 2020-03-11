@@ -14,7 +14,8 @@ class CreateQuiz extends React.Component {
         super(props);
         this.state = {
             quiz: "",
-            owner: ""
+            owner: "",
+            qNumber: 10
         }
         this.createQuiz = this.createQuiz.bind(this)
     }
@@ -30,7 +31,8 @@ class CreateQuiz extends React.Component {
         e.preventDefault();
         const quizName = this.state.quiz;
         const owner = this.state.owner;
-        this.props.createQuiz(quizName, owner, this.props.history)
+        const qNumber = this.state.qNumber;
+        this.props.createQuiz(quizName, owner, qNumber, this.props.history)
         
     }
 
@@ -42,6 +44,7 @@ class CreateQuiz extends React.Component {
                 <form onSubmit={this.createQuiz}>
                     <label>Quiz name:</label>
                     <input type="text" onChange={(e) => this.setState({quiz: e.target.value})}/>
+                    
                     <input type="submit" value="Create"/>
                 </form>
             </div>

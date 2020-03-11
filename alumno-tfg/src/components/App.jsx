@@ -20,6 +20,9 @@ import CreateQuiz from './User/CreateQuiz';
 import ViewQuizzes from './User/ViewQuizzes';
 import AddQuestions from './User/AddQuestions';
 import ViewQuiz from './User/ViewQuiz';
+import EditQuestion from './User/EditQuestion';
+import PlayQuiz from './User/PlayQuiz';
+import JoinQuiz from './Alumno/JoinQuiz';
 
 
 if(localStorage.session){
@@ -51,6 +54,9 @@ export default class App extends React.Component{
                         <RutaPrivada extact path="/user/quizzes/:id" component={ViewQuizzes}/>
                         <RutaPrivada exact path="/quiz/:id/add" component={AddQuestions}/>
                         <RutaPrivada extact path="/view/quiz/:id" component={ViewQuiz}/>
+                        <RutaPrivada exact path="/edit/question/:id" component={EditQuestion}/>
+                        <RutaPrivada exact path="/quiz/:id/play" component={PlayQuiz}/>
+                        <RutaPrivada exact path="/play" component={JoinQuiz}/>
                     </Switch>
                 </Router>
                 

@@ -47,7 +47,7 @@ exports.index = (req, res, next) => {
 
     models.user.count(countOptions)
     .then(count => {
-        return models.user.findAll();
+        return models.user.findAll({include: models.quiz});
     })
     .then(users => {
         console.log(users)
@@ -101,14 +101,15 @@ exports.edit = (req, res, next) => {
 
 exports.deleteUser = (req, res, next) => {
     const id = req.params.id;
-    models.user.findByPk(id)
-    .then(user => {
+    models.user.destroy({where: {id: id}})
+    models.quiz.destroy({where: {userId: id}, include: models.pregunta})
+    /*.then(user => {
         user.destroy()
         .then(user => {
             // res.redirect('/admin/index');
             res.send(true)
         })
-    })
+    })*/
     .catch(error => next(error));
 }
 

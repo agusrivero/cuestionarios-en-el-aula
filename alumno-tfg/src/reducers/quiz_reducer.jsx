@@ -1,8 +1,9 @@
-import {SET_QUIZ, GET_QUIZZES} from '../actions/constants';
+import {SET_QUIZ, GET_QUIZZES, QUIZ_STARTED} from '../actions/constants';
 
 const initialState = {
     quiz: {},
-    quizzes: []
+    quizzes: [],
+    started: false
 }
 
 export default function(state = initialState, action){
@@ -16,6 +17,11 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 quizzes: action.payload
+            }
+        case QUIZ_STARTED:
+            return {
+                ...state,
+                strated: action.payload
             }
         default:
             return state;
