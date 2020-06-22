@@ -3,14 +3,13 @@ import { Provider } from 'react-redux';
 import history from '../history';
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 
-import{setUser} from '../actions/login_action';
+import {setUser} from '../actions/login_action';
 
 import store from './Store';
 import React from 'react';
 import Login from '../components/Login';
 import AdminView from '../components/Administrador/AdminView';
 import UserView from '../components/User/UserView';
-import EditUserAdmin from '../components/EditView';
 import NewUser from '../components/Administrador/NewUser';
 import Navbar from './Navbar';
 import RutaPrivada from './comun/RutaPrivada';
@@ -22,7 +21,9 @@ import AddQuestions from './User/AddQuestions';
 import ViewQuiz from './User/ViewQuiz';
 import EditQuestion from './User/EditQuestion';
 import PlayQuiz from './User/PlayQuiz';
-import JoinQuiz from './Alumno/JoinQuiz';
+import Game from './User/Game';
+import Results from './User/Results';
+import ViewAlumnos from './User/ViewAlumnos';
 
 
 if(localStorage.session){
@@ -56,7 +57,9 @@ export default class App extends React.Component{
                         <RutaPrivada extact path="/view/quiz/:id" component={ViewQuiz}/>
                         <RutaPrivada exact path="/edit/question/:id" component={EditQuestion}/>
                         <RutaPrivada exact path="/quiz/:id/play" component={PlayQuiz}/>
-                        <RutaPrivada exact path="/play" component={JoinQuiz}/>
+                        <RutaPrivada exact path="/play/:id" component={Game}/>
+                        <RutaPrivada extact path="/results" component={Results}/>
+                        <RutaPrivada exact path='/quiz/:id/alumnos' component={ViewAlumnos}/>
                     </Switch>
                 </Router>
                 

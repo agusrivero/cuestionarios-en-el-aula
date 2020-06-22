@@ -13,6 +13,10 @@ module.exports = function (sequelize, DataTypes) {
             started: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: false
+            },
+            currentQuestion: {
+                type: DataTypes.INTEGER,
+                defaultValue: 0
             }
         });
 };

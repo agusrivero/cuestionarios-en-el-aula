@@ -5,19 +5,30 @@ module.exports = function (sequelize, DataTypes) {
                 type: DataTypes.STRING,
                 validate: {notEmpty: {msg: "Question must not be empty"}}
             },
-            answer_correct: {
+            answer0: {
                 type: DataTypes.STRING,
                 validate: {notEmpty: {msg: "Answer must not be empty"}}
             },
-            answer_incorrect1: {
+            answer1: {
                 type: DataTypes.STRING,
                 validate: {notEmpty: {msg: "Answer must not be empty"}}
             },
-            answer_incorrect2: {
+            answer2: {
                 type: DataTypes.STRING,
             },
-            answer_incorrect3: {
+            answer3: {
                 type: DataTypes.STRING,
+            },
+            correctAnswer: {
+                type: DataTypes.INTEGER,
+                validate: {notEmpty: {msg: "You must choose the correct answer"}}
+            },
+            time: {
+                type: DataTypes.INTEGER,
+                validate: {notEmpty: {msg: "You must choose the time"}}
+            },
+            finished: {
+                type: DataTypes.BOOLEAN
             }
         });
 };

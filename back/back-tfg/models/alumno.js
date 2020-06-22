@@ -4,9 +4,12 @@ module.exports = function (sequelize, DataTypes) {
     const Alumno = sequelize.define('alumno', {
             username: {
                 type: DataTypes.STRING,
-                unique: true,
-                validate: {notEmpty: {msg: "Username must not be empty."}}
+                validate: {notEmpty: {msg: "Username must not be empty."}},
+                unique: true
             },
+            score: {
+                type: DataTypes.INTEGER
+            }
         });
 
     return Alumno;

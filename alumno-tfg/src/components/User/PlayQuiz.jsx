@@ -3,7 +3,8 @@ import React from 'react';
 
 import PropTypes from 'prop-types'
 //import axios from 'axios';
-import {withRouter, Link} from 'react-router-dom';
+import {withRouter, Link, Redirect} from 'react-router-dom';
+import io from 'socket.io-client'
 
 import {connect} from 'react-redux';
 
@@ -17,94 +18,87 @@ class PlayQuiz extends React.Component {
             accessId: 0,
             questions: [],
             alumnos: [],
-            started: false
+            started: false,
+            error: ""
         }
         //this.deleteQuizzes = this.deleteQuizzes.bind(this);
-        this.startQuiz = this.startQuiz.bind(this)
+        this.start = this.start.bind(this)
     }
 
     componentDidMount(){
-        
         const id = this.props.match.params.id;
         this.props.getQuiz(id);
-        this.props.startQuiz(id)
+        this.socket = io('/');
+        this.socket.on('join-quiz', e => {
+            console.log('Joined')
+            this.props.getQuiz(id);
+            this.setState({
+                alumnos: this.props.quiz.quiz.alumnos
+            })
+        })
     }
+
 
     componentWillReceiveProps(nextProps){
         const id = this.props.match.params.id;
-        nextProps.getQuiz(id);
         this.setState({
             quizName: nextProps.quiz.quiz.name,
             accessId: nextProps.quiz.quiz.accessId,
-            questions: nextProps.questions.preguntas,
+            questions: nextProps.quiz.quiz.pregunta,
             alumnos: nextProps.quiz.quiz.alumnos
         })
         
     }
 
-    startQuiz(){
-        this.setState({
-            started: true
-        })
-        
+    start(){
+        // const id = this.props.match.params.id;
+        // const quiz = this.props.quiz.quiz;
+        if(this.state.alumnos.length < 3){
+            this.setState({
+                error: "No hay suficientes participantes para empezar!"
+            })
+        }else{
+            this.socket.emit('start-quiz')
+            this.setState({
+                started: true
+            })  
+        }
+              
     }
 
     render() {
         const alumnos = this.state.alumnos;
         const alumnosList = alumnos.map((alumno) => {
             return(
-                <li>{alumno.username}</li>
+                <div className="col-12 col-sm-4" key={alumno.id}>{alumno.username}</div>
             )
         })
-        if(!this.state.started){
-            return(
-                <div className="">
-                    <div>Quiz: {this.state.quizName}</div>
-                    <ul>{this.state.accessId}</ul>
-                    <button onClick={this.startQuiz}>Start</button>
-                    <ul>{alumnosList}</ul>
-                </div>
-    
-            );
-        }else{
-            return(
-                <div className="">
-                    <div>QEmpezado</div>
-                    
-                </div>
-    
-            );
-        }
-        //console.log("Mis preguntas: ",this.props.questions)
-        /*const pr = this.props.questions.preguntas;
-        const preguntasList = pr.map((pregunta) => {
-            const editLink = '/edit/question/'+pregunta.id
-            return(
-                <li key={pregunta.id}>
-                    {pregunta.question}
-                    <ul>
-                        <li>{pregunta.answer_correct}</li>
-                        <li>{pregunta.answer_incorrect1}</li>
-                        <li>{pregunta.answer_incorrect2}</li>
-                        <li>{pregunta.answer_incorrect3}</li>
-                    </ul>
-                    <button onClick={(e) => this.delQuestion(pregunta.id, e)}>Delete</button>
-                    <Link to={editLink}>Edit</Link>
-                </li>
-                
-            )
-        });
-        const addLink = '/quiz/'+this.props.match.params.id+'/add'
-        const playLink = '/quiz/'+this.props.match.params.id+'/play'
+        const redirLink = '/play/'+this.props.match.params.id
         return(
-            <div className="">
-                <div>Quiz: {this.props.quiz.quiz.name}</div>
-                <ul>{preguntasList}</ul>
-                <Link to={addLink}>Add Question</Link>
-                <Link to={playLink}>Play</Link>
+            
+            <div>
+                {
+                    !this.state.started
+                    ?
+                    <div className="container w-80">
+                        <h1>Quiz: {this.state.quizName}</h1>
+                        <div id="play-header-view">
+                            <div className="row text-center">
+                                <h2 className="col-12">{this.state.accessId}</h2>
+                                <div className="col-12 error">{this.state.error}</div>
+                                <button className="col-2 btn btn-dark m-auto" onClick={this.start}><i className="fas fa-play-circle"></i> Start!</button>
+                            </div>
+                        </div>
+                        <div className="row text-center" id="alumnos-list">
+                            {alumnosList}
+                        </div>
+                        {/* <ul>{alumnosList}</ul> */}
+                    </div>
+                    :
+                    <Redirect quiz={this.props.quiz.quiz} to={redirLink}/>
+                }
             </div>
-
-        );*/
+        )
     }
 }
 

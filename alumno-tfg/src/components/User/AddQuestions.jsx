@@ -9,15 +9,19 @@ import {connect} from 'react-redux';
 
 import {newQuestion} from '../../actions/question_actions';
 
+import '../../styles/General.css'
+
 class AddQuestion extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             question: "",
-            correct_answer: "",
+            answer0: "",
+            answer1: "",
             answer2: "",
             answer3: "",
-            answer4: ""
+            correct: 0,
+            time: 0
         }
         this.addQuestion = this.addQuestion.bind(this);
     }
@@ -28,23 +32,47 @@ class AddQuestion extends React.Component {
         this.props.newQuestion(this.props.quiz.quiz.id, question, this.props.history)  
     }
     render() {
-        const numberQuestions = this.props.quiz.quiz.questionNumber;
+        // const numberQuestions = this.props.quiz.quiz.questionNumber;
         return(
-            <div className="">
-                <div>Create User</div>
-                <div>{this.props.match.params.id}</div>
-                <form onSubmit={this.addQuestion}>
-                    <label>Question:</label>
-                    <input type="text" onChange={(e) => this.setState({question: e.target.value})}/>
-                    <label>Correct Answer:</label>
-                    <input type="text" onChange={(e) => this.setState({correct_answer: e.target.value})}/>
-                    <label>Answer 2:</label>
-                    <input type="text" onChange={(e) => this.setState({answer2: e.target.value})}/>
-                    <label>Answer 3:</label>
-                    <input type="text" onChange={(e) => this.setState({answer3: e.target.value})}/>
-                    <label>Answer 4:</label>
-                    <input type="text" onChange={(e) => this.setState({answer4: e.target.value})}/>
-                    <input type="submit" value="Add"/>
+            <div className="container w-80">
+                <div>Add Question</div>
+                <form className="standar-form" onSubmit={this.addQuestion}>
+                    <div className="form-group">
+                        <label>Question:</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({question: e.target.value})}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Answer 1:</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({answer0: e.target.value})}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Answer 2:</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({answer1: e.target.value})}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Answer 3:</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({answer2: e.target.value})}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Answer 4:</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({answer3: e.target.value})}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Correcta:</label>
+                        <select className="form-control" onChange={(e) => this.setState({correct: e.target.value})}>
+                            <option value="0" >1</option>
+                            <option value="1" >2</option>
+                            <option value="2" >3</option>
+                            <option value="3" >4</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Time:</label>
+                        <input type="number" className="form-control" onChange={(e) => this.setState({time: e.target.value})}/>
+                    </div>
+                    <button type="submit" className="btn btn-dark"><i className="fas fa-plus-circle"></i> Add</button>
+                    <button className="btn btn-dark m-2">Upload</button>
+                    {/* <input type="submit" className="btn btn-dark" value="Add"/> */}
                 </form>
             </div>
 

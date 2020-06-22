@@ -8,42 +8,21 @@ exports.allowConections = (req, res, next) => {
     next();
 }
 
-exports.index = (req, res, next) => {
-    const quizId = req.params.id;
-    models.pregunta.findAll({where: quizId})
-    .then(preguntas => {
-        res.send(preguntas)
-    })
-    .catch(error => next(error))
-}
-
 exports.newQuestion = (req, res, next) => {
     const {id} = req.params;
-    //const quizId = id;
-    //const {pr, respuesta, respuesta2, respuesta3, respuesta4} = req.body;
-    const {question, correct_answer, incorrect_answer1, incorrect_answer2, incorrect_answer3} = req.body;
-    console.log("BODDYYYYYY", req.body)
-    /*const pregunta = models.pregunta.build({
-        question,
-        respuesta,
-        respuesta2,
-        respuesta3,
-        respuesta4,
-        quizId
-    })*/
+    const {question, answer0, answer1, answer2, answer3, correct, time} = req.body;
     const preg = models.pregunta.build({
         question: question,
-        answer_correct: correct_answer,
-        answer_incorrect1: incorrect_answer1,
-        answer_incorrect2: incorrect_answer2,
-        answer_incorrect3: incorrect_answer3,
+        answer0: answer0,
+        answer1: answer1,
+        answer2: answer2,
+        answer3: answer3,
+        correctAnswer: correct,
+        time: time,
         quizId: id
     })
-    //console.log(pregunta instanceof models.pregunta)
-    //pregunta.save({fields: ["question", "answer_correct", "answer_incorrect1", "answer_incorrect2", "answer_incorrect3", "quizId"]})
-    preg.save()
+    preg.save({fields: ["question", "answer0", "answer1", "answer2", "answer3", "correctAnswer", "time", "quizId"]})
     .then(pregunta => {
-        console.log("OKKKK")
         models.quiz.findByPk(id)
         .then(quiz => {
             res.send(true)
@@ -53,28 +32,31 @@ exports.newQuestion = (req, res, next) => {
 
 exports.deleteQuestion = (req, res, next) => {
     const {quizId, id} = req.params;
-    console.log("MY IDDDDDDDDD", quizId)
     models.pregunta.findByPk(id, {where: {quizId: quizId}})
     .then(pregunta => {
         pregunta.destroy() 
-        res.send(true)
+        models.quiz.findByPk(quizId, {include: models.pregunta})
+        .then(quiz => {
+            res.send(quiz)
+        })
     })
     .catch(error => next(error))
 }
 
 exports.editQuestion = (req, res, next) => {
     const id = req.params.id;
-    const {question, correct_answer, incorrect_answer1, incorrect_answer2, incorrect_answer3} = req.body;
+    const {question, answer0, answer1, answer2, answer3, correct, time} = req.body;
     models.pregunta.findByPk(id)
     .then(pregunta => {
         pregunta.question = question
-        pregunta.answer_correct = correct_answer
-        pregunta.answer_incorrect1 = incorrect_answer1
-        pregunta.answer_incorrect2 = incorrect_answer2
-        pregunta.answer_incorrect3 = incorrect_answer3
-        pregunta.save({fields: ["question", "answer_correct", "answer_incorrect1", "answer_incorrect2", "answer_incorrect3"]})
+        pregunta.answer0 = answer0
+        pregunta.answer1 = answer1
+        pregunta.answer2 = answer2
+        pregunta.answer3 = answer3
+        pregunta.correctAnswer = correct
+        pregunta.time = time
+        pregunta.save({fields: ["question", "answer0", "answer1", "answer2", "answer3", "correctAnswer", "time"]})
         .then(pregunta => {
-            
             res.send(pregunta)
         })
     })
@@ -90,4 +72,21 @@ exports.getQuestion = (req, res, next) => {
     .catch(error => next(error))
 }
 
+exports.endQuestion = (req, res, next) => {
+    const {quizId, questionId} = req.body
+    models.pregunta.findByPk(questionId, {where: quizId})
+    .then(pregunta => {
+        pregunta.finished = true
+        pregunta.save()
+        res.send(true)
+    })
+    .catch(error => next(error))
+}
 
+exports.getAnswer = (req, res, next) => {
+    const {id, quizId} = req.params;
+    models.pregunta.findAll({where: {quizId: quizId, id: id}})
+    .then(pregunta => {
+        res.send(pregunta)
+    })
+}

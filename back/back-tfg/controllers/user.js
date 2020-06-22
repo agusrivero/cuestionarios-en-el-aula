@@ -7,13 +7,8 @@ exports.allowConections = (req, res, next) => {
     next();
 }
 
-exports.newUser = (req, res, next) => {
-    res.render('admin/new');
-}
-
 exports.createUser = (req, res, next) => {
     const {username, email, password} = req.body;
-
     const user = models.user.build({
         username,
         password,
@@ -22,40 +17,24 @@ exports.createUser = (req, res, next) => {
 
     user.save({fields: ["username", "password", "email", "salt"]})
     .then(user => {
-        req.flash('success', 'Usuario creado correctamente')
-        res.redirect('/')
+        // req.flash('success', 'Usuario creado correctamente')
+        res.send(true)
     })
     .catch(Sequelize.ValidationError, error => {
         req.flash('error', 'Los datos introducidos no son válidos');
         error.errors.forEach(({message}) => req.flash('error', message));
-        res.render('admin/new');
+        // res.send('Los datos introducidos no son válidos');
     })
     .catch(error => {
         req.flash('error', 'Error al crear el usuario: ' + error.message);
+        res.send('Los datos introducidos no son válidos');
         next(error);
     });
-
 }
 
 exports.index = (req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    let countOptions = {
-        where: {}
-    };
-
-    let title = "Usuarios";
-
-    models.user.count(countOptions)
-    .then(count => {
-        return models.user.findAll({include: models.quiz});
-    })
+    models.user.findAll({include: models.quiz})
     .then(users => {
-        console.log(users)
-        // return {users}
-        // res.render('admin/index', {
-        //     users,
-        //     title
-        // });
         res.send(users)
     })
     .catch(error => next(error));
@@ -66,7 +45,6 @@ exports.viewUser = (req, res, next) => {
     
     models.user.findByPk(id)
     .then(user => {
-        // res.render('admin/view', {user});
         res.send(user)
     })
     .catch(error => next(error));
@@ -77,7 +55,6 @@ exports.editUser = (req, res, next) => {
 
     models.user.findByPk(id)
     .then(user => {
-        //res.render('admin/edit', {user});
         res.send(user);
     })
     .catch(error => next(error));
@@ -93,7 +70,6 @@ exports.edit = (req, res, next) => {
         user.save({fields: ["username", "password", "email", "salt"]})
         .then(user => {
             res.send(user)
-            
         })
     })
     .catch(error => next(error));
@@ -103,14 +79,9 @@ exports.deleteUser = (req, res, next) => {
     const id = req.params.id;
     models.user.destroy({where: {id: id}})
     models.quiz.destroy({where: {userId: id}, include: models.pregunta})
-    /*.then(user => {
-        user.destroy()
-        .then(user => {
-            // res.redirect('/admin/index');
-            res.send(true)
-        })
-    })*/
+    .then(user => {
+        res.send(true)
+    })
     .catch(error => next(error));
 }
-
 

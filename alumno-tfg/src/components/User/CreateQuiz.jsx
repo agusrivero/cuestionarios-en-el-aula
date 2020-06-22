@@ -1,9 +1,6 @@
 import React from 'react';
-
 import PropTypes from 'prop-types'
-import axios from 'axios';
-import {withRouter, Link} from 'react-router-dom';
-
+import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import {createQuiz} from '../../actions/quiz_actions'
@@ -14,14 +11,12 @@ class CreateQuiz extends React.Component {
         super(props);
         this.state = {
             quiz: "",
-            owner: "",
-            qNumber: 10
+            owner: ""
         }
         this.createQuiz = this.createQuiz.bind(this)
     }
 
     componentDidMount(){
-        console.log("Create Quiz", this.props.login.user)
         this.setState({
             owner: this.props.login.user.id
         })
@@ -31,21 +26,21 @@ class CreateQuiz extends React.Component {
         e.preventDefault();
         const quizName = this.state.quiz;
         const owner = this.state.owner;
-        const qNumber = this.state.qNumber;
-        this.props.createQuiz(quizName, owner, qNumber, this.props.history)
+        this.props.createQuiz(quizName, owner, this.props.history)
         
     }
 
     render() {
         
         return(
-            <div className="quizId">
+            <div className="container">
                 <div>Create Quiz</div>
-                <form onSubmit={this.createQuiz}>
-                    <label>Quiz name:</label>
-                    <input type="text" onChange={(e) => this.setState({quiz: e.target.value})}/>
-                    
-                    <input type="submit" value="Create"/>
+                <form className="standar-form" onSubmit={this.createQuiz}>
+                    <div className="form-group">
+                        <label>Quiz name: </label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({quiz: e.target.value})}/>
+                    </div>
+                    <input type="submit" className="btn btn-dark" value="Create"/>
                 </form>
             </div>
            
@@ -59,14 +54,12 @@ class CreateQuiz extends React.Component {
 CreateQuiz.propTypes = {
     createQuiz: PropTypes.func.isRequired,
     quiz: PropTypes.object.isRequired,
-    login: PropTypes.object.isRequired,
-    // errors: PropTypes.object.isRequired
+    login: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
     quiz: state.quiz,
-    login: state.login,
-//   errors: state.errors
+    login: state.login
 });
 
 export default connect(mapStateToProps, {createQuiz})(withRouter(CreateQuiz));

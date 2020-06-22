@@ -11,81 +11,74 @@ router.all('*', sessionController.deleteExpiredUserSession);
 
 //-----------------------------------------------------------
 
-// History: Restoration routes.
-
-// Redirection to the saved restoration route.
-function redirectBack(req, res, next) {
-  const url = req.session.backURL || "/";
-  delete req.session.backURL;
-  res.redirect(url);
-}
-
-router.get('/goback', redirectBack);
-
-// Save the route that will be the current restoration route.
-function saveBack(req, res, next) {
-  req.session.backURL = req.url;
-  next();
-}
-
-// Restoration routes are GET routes that do not end in:
-//   /new, /edit, /play, /check, /session, or /:id.
-router.get([
-  '/',
-  '/admin',
-  '/users',
-  '/users/:id(\\d+)/quizzes',
-  '/quizzes'], saveBack);
+router.all('*',sessionController.deleteExpiredUserSession);
 
 //-----------------------------------------------------------
 
-router.all('*',sessionController.deleteExpiredUserSession);
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index');
-});
-
-
-//routes for /session
-router.get('/login', sessionController.new);
+//DESDE EL LADO DEL PROFESOR
+//Rutas para Login y Logout
 router.post('/login', sessionController.create);
 router.delete('/logout', sessionController.destroy);
 
 //edit user
 router.get('/:id(\\d+)/edit', userController.viewUser);
 
-//routes for /admin
-router.get('/admin/create', sessionController.adminRequired, userController.newUser);
+//Rutas relacionadas con usuario
 router.post('/admin/create', userController.createUser);
 router.get('/admin/index', userController.index);
 router.get('/admin/view/:id(\\d+)',sessionController.adminOrMyselfRequired, userController.viewUser);
-router.get('/get/:id(\\d+)', userController.editUser);
+router.get('/edit/:id(\\d+)', userController.editUser);
 router.put('/edit/:id(\\d+)', userController.edit);
-router.delete('/admin/view/:id(\\d+)', userController.deleteUser);
+router.delete('/admin/delete/:id(\\d+)', userController.deleteUser);
 
-//routes for /user
-router.get('/user/:id(\\d+)', userController.viewUser);
-router.get('/create/quiz', quizController.newQuiz);
+
+//Rutas relacionadas con un quiz
+router.post('/create/quiz', quizController.createQuiz);
 router.get('/view/quizzes/:id(\\d+)', quizController.index);
 router.get('/quiz/:id(\\d+)/view', quizController.viewQuiz);
-router.post('/create/quiz', quizController.createQuiz);
 router.delete('/quiz/:id(\\d+)/delete', quizController.deleteQuiz);
+router.put('/quiz/start/:id(\\d+)', quizController.startQuiz);
+router.put('/quiz/end/:id(\\d+)', quizController.endQuiz);
 
-//rooutes for /quiz
+
+//Rutas reacionadas con preguntas
 router.post('/new/question/:id(\\d+)', preguntaController.newQuestion);
-router.get('/quiz/alumnos', quizController.viewAlumnos);
-router.post('/quiz/start/:id(\\d+)', quizController.startQuiz)
-router.get('/quiz/started/:accessId(\\d+)', quizController.checkStarted)
+router.get('/get/question/:id(\\d+)', preguntaController.getQuestion);
+router.delete('/quiz/:quizId(\\d+)/delete/question/:id(\\d+)', preguntaController.deleteQuestion);
+router.put('/edit/question/:id(\\d+)', preguntaController.editQuestion);
+router.put('/question/end', preguntaController.endQuestion);
+router.get('/question/:id(\\d+)/answer/:quizId(\\d+)', preguntaController.getAnswer);
 
-//routes for /question
-router.get('/quiz/:id(\\d+)/questions', preguntaController.index);
-router.delete('/quiz/:quizId(\\d+)/delete/question/:id(\\d+)', preguntaController.deleteQuestion)
-router.put('/edit/question/:id(\\d+)', preguntaController.editQuestion)
-router.get('/get/question/:id(\\d+)', preguntaController.getQuestion)
+
+//-----------------------------------------------------------
+//DESDE EL LADO DEL ALUMNO
+
+//Rutas relacionadas con el quiz
+router.get('/quiz/check/:accessId(\\d+)', quizController.checkQuiz);
+
+//Rutas relacionadas con el alumno
+router.post('/alumno/join', alumnoController.joinQuiz);
+router.get('/alumno/check/:id(\\d+)', alumnoController.checkStarted);
+router.put('/alumno/answer', alumnoController.score);
+//routes for /user
+// router.get('/user/:id(\\d+)', userController.viewUser);
+
+
+
+
+// //rooutes for /quiz
+
+
+// //routes for /question
+// router.get('/quiz/:id(\\d+)/questions', preguntaController.index);
+
+
+
+
 
 
 //routes for /alumno
-router.post('/alumno/join', alumnoController.joinQuiz)
+
+// router.put('/alumno/answer', alumnoController.putScore)
 
 module.exports = router;

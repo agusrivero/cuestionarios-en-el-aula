@@ -57,7 +57,7 @@ exports.loginRequired = (req, res, next) => {
 // MW that allows to pass only if the logged useer in is admin.
 exports.adminRequired = (req, res, next) => {
 
-    const isAdmin = !!req.session.user.isAdmin;
+    const isAdmin = !!req.body.session.user.isAdmin;
 
     if (isAdmin) {
         next();
@@ -124,21 +124,21 @@ const authenticate = (username, password) => {
 
 
 // GET /login   -- Login form
-exports.new = (req, res, next) => {
+// exports.new = (req, res, next) => {
 
-    console.log("entrando al servidor")
-    const username = req.username;
-    const password = req.password;
+//     console.log("entrando al servidor")
+//     const username = req.username;
+//     const password = req.password;
     
-    authenticate(username, password)
-    .then(user => {
-        //res.redirect('/user/'+user.id);
-        res.send(true);
-    })
-    .catch(error => next(error))
+//     authenticate(username, password)
+//     .then(user => {
+//         //res.redirect('/user/'+user.id);
+//         res.send(true);
+//     })
+//     .catch(error => next(error))
 
     
-};
+// };
 
 
 // POST /login   -- Create the session if the user authenticates successfully

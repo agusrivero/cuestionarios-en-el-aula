@@ -6,7 +6,8 @@
 
 var app = require('../app');
 var debug = require('debug')('back-tfg:server');
-var http = require('http');
+var server = require('http').Server(app);
+const io = require('socket.io')(server)
 
 /**
  * Get port from environment and store in Express.
@@ -15,19 +16,62 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || '5000');
 app.set('port', port);
 
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*")
+  next();
+});
 /**
  * Create HTTP server.
  */
-
-var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
+io.on('connection', socket => {
+  // socket.on('host-join', (data) => {
+  //   console.log("HOST JOINEEED")
+  //   console.log("MY DATAAAAA HOST-JOIN", data)
+  //   socket.join(data.accessId)
+  // })
+  // socket.on('player-join', (data) => {
+  //   console.log("PLAYER JOINEEEEEED")
+    
+  //   var myData = parseInt(data)
+  //   console.log("MY DATAAAAA PLAYER-JOIN", myData)
+  //   socket.join(myData)
+  // })
+  socket.on('start-quiz', (data) => {
+    // console.log("MY DATAAAAA START-QUIZ", data)
+    socket.broadcast.emit('quiz-started')
+  })
+  socket.on('join-quiz', (data) => {
+    socket.broadcast.emit('join-quiz')
+  })
+  socket.on('end-question', (data) => {
+    console.log('ENDEEEEEEEEED')
+    socket.broadcast.emit('end-question')
+  })
+  socket.on('next-question', (data) => {
+    console.log('NEXT QUESTIOOOOON')
+    socket.broadcast.emit('next-question')
+  })
+  socket.on('end-quiz', (data) => {
+    socket.broadcast.emit('end-quiz')
+  })
+  socket.on('answer-submit', (data) => {
+    socket.broadcast.emit('answer-submit', {answer: data.answer, user: data.user})
+  })
+})
+
+
+
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
 
 /**
  * Normalize a port into a number, string, or false.

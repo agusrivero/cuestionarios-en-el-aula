@@ -21,7 +21,6 @@ class EditUser extends React.Component {
 
     componentDidMount(){
         const id = this.props.match.params.id;
-        console.log("HOLAA", id);
         this.props.getUser(id);
     }
 
@@ -48,18 +47,21 @@ class EditUser extends React.Component {
         }else{
             this.props.history.push('/user')
         }
-        //this.props.history.push('/admin')
     }
     render() {
         return(
-            <div className="">
+            <div className="container">
                 <div>Edit User</div>
                 <form onSubmit={this.editUser}>
-                    <label>Username:</label>
-                    <input type="text" onChange={(e) => this.setState({username: e.target.value})} value={this.state.username}/>
-                    <label>Email</label>
-                    <input type="text" onChange={(e) => this.setState({email: e.target.value})} value={this.state.email || ""}/>
-                    <input type="submit" value="Editar"/>
+                    <div className="form-group">
+                        <label>Username:</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({username: e.target.value})} value={this.state.username}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Email</label>
+                        <input type="email" className="form-control" onChange={(e) => this.setState({email: e.target.value})} value={this.state.email || ""}/>
+                    </div>
+                    <input type="submit" className="btn btn-dark" value="Editar"/>
                 </form>
             </div>
 

@@ -9,6 +9,7 @@ var SequelizeStore = require('connect-session-sequelize')(session.Store);
 var partials = require('express-partials');
 var flash = require('express-flash');
 var methodOverride = require('method-override');
+var socket = require('socket.io')
 
 var app = express();
 
@@ -20,10 +21,6 @@ app.use((req, res, next) => {
 });
 
 var indexRouter = require('./routes/index');
-
-
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

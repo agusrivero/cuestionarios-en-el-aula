@@ -7,7 +7,7 @@ import {withRouter} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
-import { loginUser } from '../actions/login_action';
+import {loginUser} from '../actions/login_action';
 
 
 class Login extends Component {
@@ -59,13 +59,18 @@ class Login extends Component {
 
   render(){
     return (
-      <div className="mainScreen">
-      <form onSubmit={this.login}>
-        <label>Username:</label>
-        <input type="text" onChange={(e) => this.setState({username: e.target.value})}/>
-        <label>Password:</label>
-        <input type="text" onChange={(e) => this.setState({password: e.target.value})}/>
-        <input type="submit" value="Login"/>
+      <div className="container">
+      <form className="standar-form" onSubmit={this.login}>
+        <div className="form-group">
+          <label><i className="fas fa-user"></i> Username:</label>
+          <input type="text" className="form-control" onChange={(e) => this.setState({username: e.target.value})}/>
+        </div>
+        <div className="form-group">
+          <label><i className="fas fa-key"></i> Password:</label>
+          <input type="password" className="form-control" onChange={(e) => this.setState({password: e.target.value})}/>
+        </div>
+        
+        <input type="submit" className="btn btn-dark" value="Login"/>
       </form>
         
       </div>

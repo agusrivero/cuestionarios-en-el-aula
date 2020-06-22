@@ -14,10 +14,12 @@ class EditQuestion extends React.Component {
         super(props);
         this.state = {
             question: "",
-            correct_answer: "",
+            answer0: "",
+            answer1: "",
             answer2: "",
             answer3: "",
-            answer4: ""
+            correct: 0,
+            time: 0
         }
         this.edit = this.edit.bind(this);
     }
@@ -31,10 +33,12 @@ class EditQuestion extends React.Component {
     componentWillReceiveProps(nextProps){
         this.setState({
             question: nextProps.questions.pregunta.question,
-            correct_answer: nextProps.questions.pregunta.answer_correct,
-            answer2: nextProps.questions.pregunta.answer_incorrect1,
-            answer3: nextProps.questions.pregunta.answer_incorrect2,
-            answer4: nextProps.questions.pregunta.answer_incorrect3
+            answer0: nextProps.questions.pregunta.answer0,
+            answer1: nextProps.questions.pregunta.answer1,
+            answer2: nextProps.questions.pregunta.answer2,
+            answer3: nextProps.questions.pregunta.answer3,
+            correct: nextProps.questions.pregunta.correctAnswer,
+            time: nextProps.questions.pregunta.time
         })
     }
 
@@ -46,21 +50,45 @@ class EditQuestion extends React.Component {
     }
     render() {
         return(
-            <div className="">
+            <div className="container w-80">
                 <div>Edit Question</div>
-                <div>{this.props.match.params.id}</div>
-                <form onSubmit={this.edit}>
-                    <label>Question:</label>
-                    <input type="text" onChange={(e) => this.setState({question: e.target.value})} value={this.state.question}/>
-                    <label>Correct Answer:</label>
-                    <input type="text" onChange={(e) => this.setState({correct_answer: e.target.value})} value={this.state.correct_answer}/>
-                    <label>Answer 2:</label>
-                    <input type="text" onChange={(e) => this.setState({answer2: e.target.value})} value={this.state.answer2}/>
-                    <label>Answer 3:</label>
-                    <input type="text" onChange={(e) => this.setState({answer3: e.target.value})} value={this.state.answer3}/>
-                    <label>Answer 4:</label>
-                    <input type="text" onChange={(e) => this.setState({answer4: e.target.value})} value={this.state.answer4}/>
-                    <input type="submit" value="Edit"/>
+                <form className="standar-form" onSubmit={this.edit}>
+                    <div className="form-group">
+                        <label>Question:</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({question: e.target.value})} value={this.state.question}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Correct Answer:</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({answer0: e.target.value})} value={this.state.answer0}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Answer 2:</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({answer1: e.target.value})} value={this.state.answer1}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Answer 3:</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({answer2: e.target.value})} value={this.state.answer2}/>
+                        
+                    </div>
+                    <div className="form-group">
+                        <label>Answer 4:</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({answer3: e.target.value})} value={this.state.answer3}/>
+                    </div>
+                    <div className="form-group">
+                        <label>Correcta:</label>
+                        <select className="form-control" onChange={(e) => this.setState({correct: e.target.value})} value={this.state.correct}>
+                            <option value="0">1</option>
+                            <option value="1">2</option>
+                            <option value="2">3</option>
+                            <option value="3">4</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Time:</label>
+                        <input type="number" className="form-control" onChange={(e) => this.setState({time: e.target.value})} value={this.state.time}/>
+                    </div>
+                    {/* <input type="number" onChange={(e) => this.setState({correct: e.target.value})} value={this.state.correct}/> */}
+                    <button type="submit" className="btn btn-dark" value="Edit"><i className="fas fa-edit"></i> Edit</button>
                 </form>
             </div>
 

@@ -4,7 +4,7 @@ import {withRouter, Link} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
-import { logoutUser } from '../actions/login_action';
+import {logoutUser} from '../actions/login_action';
 
 
 class Navbar extends Component {
@@ -14,50 +14,50 @@ class Navbar extends Component {
         this.logout = this.logout.bind(this)
     }
 
-   
     logout(){
         this.props.logoutUser();
     }
 
     render(){
-       
-        
-        if(this.props.login.authenticated && this.props.login.user.isAdmin){
-            return (
-            <div className="mainScreen">
-                <button onClick={this.logout}>Logout</button>
-                <Link to="/admin">{this.props.login.user.username}</Link>
+        return(
+            <div>
+                {
+                    this.props.login.authenticated && this.props.login.user.isAdmin
+                    ?
+                    <nav className="navbar bg-dark navbar-expand-sm justify-content-end">
+                        <div className="navbar-nav mr-0">
+                            <Link className="nav-link" to="/admin">{this.props.login.user.username}</Link>
+                            <button className="btn btn-light nav-item" onClick={this.logout}><i className="fas fa-sign-out-alt"></i> Logout</button>
+                        </div>
+                    </nav>
+                    :
+                    this.props.login.authenticated && !this.props.login.user.isAdmin
+                    ?
+                    <nav className="navbar bg-dark navbar-expand-sm justify-content-end">
+                        <div className="navbar-nav mr-0">
+                            <Link className="nav-link" to="/user">User</Link>
+                            <button className="btn btn-light nav-item" onClick={this.logout}><i className="fas fa-sign-out-alt"></i> Logout</button>
+                        </div>
+                    </nav>
+                    :
+                    <div className="mainScreen">
+                    </div>
+                }
             </div>
-        
-            )
-        }if(this.props.login.authenticated && !this.props.login.user.isAdmin){
-            return (
-            <div className="mainScreen">
-                <button onClick={this.logout}>Logout</button>
-            <Link to="/user">User</Link>
-            </div>
-        
-            )
-        }
-        return (
-        <div className="mainScreen">
             
-        </div>
-        
-        )
+            
+        );
     }
 
 }
 
 Navbar.propTypes = {
     logoutUser: PropTypes.func.isRequired,
-    login: PropTypes.object.isRequired,
-    // errors: PropTypes.object.isRequired
+    login: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
     login: state.login
-//   errors: state.errors
 });
 
 export default connect(mapStateToProps, {logoutUser})(withRouter(Navbar));

@@ -1,8 +1,6 @@
 import React from 'react';
-//import {BrowserRouter as Router, Switch, Route, Link, Redirect} from 'react-router-dom';
 
 import PropTypes from 'prop-types'
-//import axios from 'axios';
 import {withRouter, Link} from 'react-router-dom';
 
 import {connect} from 'react-redux';
@@ -12,6 +10,9 @@ import {getQuizzes, deleteQuiz} from '../../actions/quiz_actions'
 class ViewQuizzes extends React.Component {
     constructor(props){
         super(props);
+        this.state = {
+            quizzes: []
+        }
         this.deleteQuizzes = this.deleteQuizzes.bind(this);
     }
 
@@ -21,35 +22,44 @@ class ViewQuizzes extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
-        const id = this.props.match.params.id;
-        nextProps.getQuizzes(id);
+        this.setState({
+            quizzes: nextProps.quiz.quizzes
+        })
     }
 
     deleteQuizzes(id, e){
-        e.preventDefault();
-        console.log(id)
         this.props.deleteQuiz(id);
-        this.props.history.push('/user/quizzes/'+this.props.login.user.id);
     }
 
     render() {
-        const quizzes = this.props.quiz.quizzes;
+        const quizzes = this.state.quizzes
         const quizList = quizzes.map((quiz) => {
             const viewLink = '/view/quiz/'+quiz.id
             return(
-                <li key={quiz.id}>
-                    {quiz.name}
-                    <button onClick={(e) => this.deleteQuizzes(quiz.id, e)}>Delete</button>
-                    <Link to={viewLink}>See</Link>
-                </li>
+                <tr key={quiz.id}>
+                    <td>{quiz.name}</td>
+                    <td><Link className="btn fas fa-eye" to={viewLink}></Link></td>
+                    <td><button className="btn fas fa-trash-alt" onClick={(e) => this.deleteQuizzes(quiz.id, e)}></button></td>
+                </tr>
                 
             )
         });
 
         return(
-            <div className="">
-                <div>Quizzes</div>
-                <ul>{quizList}</ul>
+            <div className="container">
+                <div className="text-field-principal">Quizzes</div>
+                <table className="table table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th>Quiz</th>
+                            <th>Ver</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {quizList}
+                    </tbody>
+                </table>
             </div>
 
         );

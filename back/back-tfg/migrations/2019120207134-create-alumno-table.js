@@ -12,10 +12,12 @@ module.exports = {
                 },
                 username: {
                     type: Sequelize.STRING,
-                    unique: true,
                     validate: {
                         notEmpty: {msg: "Username must not be empty."}
                     }
+                },
+                score: {
+                    type: Sequelize.INTEGER
                 },
                 createdAt: {
                     type: Sequelize.DATE,

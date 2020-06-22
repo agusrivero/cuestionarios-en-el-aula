@@ -7,19 +7,21 @@ module.exports = {
         return queryInterface.bulkInsert('pregunta', [
             {
                 question: 'admin',
-                answer_correct: 'admin',
-                answer_incorrect1: 'admin',
-                answer_incorrect2: 'admin',
-                answer_incorrect3: 'admin',
+                answer0: 'admin',
+                answer1: 'admin',
+                answer2: 'admin',
+                answer3: 'admin',
+                correctAnswer: 2,
                 quizId: 1,
                 createdAt: new Date(), updatedAt: new Date()
             },
             {
                 question: 'admin2',
-                answer_correct: 'admin',
-                answer_incorrect1: 'admin',
-                answer_incorrect2: 'admin',
-                answer_incorrect3: 'admin',
+                answer0: 'admin',
+                answer1: 'admin',
+                answer2: 'admin',
+                answer3: 'admin',
+                correctAnswer: 1,
                 quizId: 1,
                 createdAt: new Date(), updatedAt: new Date()
             }

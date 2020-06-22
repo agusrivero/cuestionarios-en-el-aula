@@ -7,6 +7,8 @@ import {withRouter} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
+import '../../styles/General.css'
+
 
 class AdminView extends React.Component {
     constructor(props){
@@ -17,11 +19,12 @@ class AdminView extends React.Component {
     render() {
         let editLink = "/edit/"+this.props.login.user.id;
         return(
-            <div className="hola">
-                <div>Admin View</div>
-                <Link to={editLink}>Edit User</Link>
-                <Link to="/admin/new">Create User</Link>
-                <Link to="/users">View Users</Link>
+            <div className="container w-80 mt-5">
+                <div className="admin-navbar row text-center">
+                    <Link to={editLink} className="link col-sm-3 col-12 m-auto">Edit User</Link>
+                    <Link to="/admin/new" className="link col-sm-3 col-12 m-auto">Create User</Link>
+                    <Link to="/users" className="link col-sm-3 col-12 m-auto">View Users</Link>
+                </div>
             </div>
 
         );

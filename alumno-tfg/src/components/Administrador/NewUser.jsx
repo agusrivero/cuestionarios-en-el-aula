@@ -32,16 +32,22 @@ class NewUser extends React.Component {
     }
     render() {
         return(
-            <div className="">
+            <div className="container">
                 <div>Create User</div>
                 <form onSubmit={this.newUser}>
-                    <label>Username:</label>
-                    <input type="text" onChange={(e) => this.setState({username: e.target.value})}/>
-                    <label>Password:</label>
-                    <input type="text" onChange={(e) => this.setState({password: e.target.value})}/>
-                    <label>Email</label>
-                    <input type="text" onChange={(e) => this.setState({email: e.target.value})}/>
-                    <input type="submit" value="Login"/>
+                    <div className="form-group">
+                        <label>Username:</label>
+                        <input type="text" className="form-control" onChange={(e) => this.setState({username: e.target.value})} required/>
+                    </div>
+                    <div className="form-group">
+                        <label>Password:</label>
+                        <input type="password" className="form-control" onChange={(e) => this.setState({password: e.target.value})} required/>
+                    </div>
+                    <div className="form-group">
+                        <label>Email</label>
+                        <input type="email" className="form-control" onChange={(e) => this.setState({email: e.target.value})} required/>
+                    </div>
+                    <input type="submit" className="btn btn-dark" value="Create"/>
                 </form>
             </div>
 

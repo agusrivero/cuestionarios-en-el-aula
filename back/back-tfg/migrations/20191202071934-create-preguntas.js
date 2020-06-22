@@ -10,17 +10,27 @@ module.exports = {
       question: {
         type: Sequelize.STRING
       },
-      answer_correct: {
+      answer0: {
         type: Sequelize.STRING
       },
-      answer_incorrect1: {
+      answer1: {
         type: Sequelize.STRING
       },
-      answer_incorrect2: {
+      answer2: {
         type: Sequelize.STRING
       },
-      answer_incorrect3: {
+      answer3: {
         type: Sequelize.STRING
+      },
+      correctAnswer: {
+        type: Sequelize.INTEGER
+      },
+      time: {
+        type: Sequelize.INTEGER
+      },
+      finished: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,

@@ -8,7 +8,6 @@ exports.allowConections = (req, res, next) => {
 }
 
 exports.index = (req, res, next) => {
-    
     const id = req.params.id;
     models.user.findByPk(id)
     .then(user => {
@@ -20,10 +19,6 @@ exports.index = (req, res, next) => {
     })
     .catch(error => next(error))
 };
-
-exports.newQuiz = (req, res, next) => {
-    res.render('user/newQuiz');
-}
 
 exports.createQuiz = (req, res, next) => {
     const {quizName, ownerId} = req.body;
@@ -37,8 +32,6 @@ exports.createQuiz = (req, res, next) => {
 
     quiz.save()
     .then(quiz => {
-        // res.redirect('/view/quizzes')
-        //res.render('user/questions/new', {quiz, questionsLeft})
         res.send(quiz)
     })
     .catch(error => next(error))
@@ -50,7 +43,11 @@ exports.deleteQuiz = (req, res, next) => {
     .then(quiz => {
         quiz.destroy()
         models.pregunta.destroy({where: {quizId: quiz.id}})
-        res.send(true)
+        models.alumno.destroy({where: {quizId: quiz.id}})
+        models.quiz.findAll()
+        .then(quizzes => {
+            res.send(quizzes)
+        })
     })
     .catch(error => next(error))
 }
@@ -83,7 +80,7 @@ exports.viewAlumnos = (req, res, next) => {
 
 exports.startQuiz = (req, res, next) => {
     const id = req.params.id;
-    models.quiz.findByPk(id)
+    models.quiz.findByPk(id, {include: [models.alumno, models.pregunta]})
     .then(quiz => {
         quiz.started = true;
         quiz.save()
@@ -92,15 +89,27 @@ exports.startQuiz = (req, res, next) => {
     .catch(error => next(error))
 }
 
-exports.checkStarted = (req, res, next) => {
+exports.checkQuiz = (req, res, next) => {
     const accessId = req.params.accessId;
-    models.quiz.findOne({where: {accessId: accessId}})
+    models.quiz.findOne({where: {accessId: accessId}, include: [models.alumno, models.pregunta]})
     .then(quiz => {
-        if(quiz.started){
-            res.send(true)
-        }else{
+        if(quiz === null){
             res.send(false)
+        }else{
+            res.send(quiz)
         }
     })
-    .catch(error => next(error))
+    .catch(error => {
+        next(error)
+    })
+}
+
+exports.endQuiz = (req, res, next) => {
+    const id = req.params.id
+    models.quiz.findByPk(id, {include: [models.alumno, models.pregunta]})
+    .then(quiz => {
+        quiz.started = false
+        quiz.save()
+        res.send(quiz)
+    })
 }
