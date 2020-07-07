@@ -10,7 +10,8 @@ class ViewQuiz extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            preguntas: []
+            preguntas: [],
+            imageSrc: ""
         }
         this.delQuestion = this.delQuestion.bind(this)
     }
@@ -33,8 +34,10 @@ class ViewQuiz extends React.Component {
 
     render() {
         const pr = this.state.preguntas;
+        console.log(this.state.preguntas)
+
         const preguntasList = pr.map((pregunta) => {
-            const editLink = '/edit/question/'+pregunta.id
+            const editLink = '/edit/question/'+pregunta.id;
             return(
                 <tr key={pregunta.id}>
                     <td>{pregunta.question}</td>
@@ -50,6 +53,7 @@ class ViewQuiz extends React.Component {
                     <td>{pregunta.time} segundos</td>
                     <td><Link className="btn far fa-edit" to={editLink}></Link></td>
                     <td><button className="btn fas fa-trash-alt" onClick={(e) => this.delQuestion(pregunta.id, e)}></button></td>
+                    <td><img src={pregunta.image}/></td>
                 </tr>
                 
             )
@@ -74,6 +78,7 @@ class ViewQuiz extends React.Component {
                             <th>Tiempo</th>
                             <th>Editar</th>
                             <th>Eliminar</th>
+                            <th>Imagen</th>
                         </tr>
                     </thead>
                     <tbody>

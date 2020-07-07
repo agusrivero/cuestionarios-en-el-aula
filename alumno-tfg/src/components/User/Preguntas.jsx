@@ -15,6 +15,8 @@ import diamond from '../../assets/diamond.svg'
 import circle from '../../assets/circle.svg'
 import triangle from '../../assets/triangle.svg'
 
+import "../../App.css"
+
 class Preguntas extends React.Component {
     constructor(props){
         super(props);
@@ -29,6 +31,7 @@ class Preguntas extends React.Component {
                 <div className="container">
                     <h2>{this.props.pregunta.question}</h2>
                     {/* <div id="timer">{this.state.tiempoTimer}</div> */}
+                    <img src={this.props.pregunta.image} id="imagen-juego"/>
                     <div className="row">
                         <div className="col-12 respuestas" id="respuesta-0"><img src={diamond}/>{this.props.pregunta.answer0}</div>
                         <div className="col-12 respuestas" id="respuesta-1"><img src={triangle}/>{this.props.pregunta.answer1}</div>

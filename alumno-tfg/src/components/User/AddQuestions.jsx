@@ -21,9 +21,13 @@ class AddQuestion extends React.Component {
             answer2: "",
             answer3: "",
             correct: 0,
-            time: 0
+            time: 0,
+            imageSrc: "",
+            image: {}
         }
         this.addQuestion = this.addQuestion.bind(this);
+        this.onFileChange = this.onFileChange.bind(this);
+        this.onDrop = this.onDrop.bind(this);
     }
 
     addQuestion(e){
@@ -31,6 +35,34 @@ class AddQuestion extends React.Component {
         const question = this.state
         this.props.newQuestion(this.props.quiz.quiz.id, question, this.props.history)  
     }
+
+    onDrop(e){
+        e.preventDefault();
+        this.onFileChange(e, e.dataTransfer.files[0]);
+    }
+
+    onFileChange(e, file){
+        var file = file || e.target.files[0],
+            pattern = /image-*/,
+            reader = new FileReader();
+             
+        if (!file.type.match(pattern)) {
+            alert('Formato inválido');
+            return;
+        }
+         
+        reader.onload = (e) => {
+            this.setState({ 
+                imageSrc: reader.result
+            }); 
+        }
+        reader.readAsDataURL(file);
+        // this.setState({
+        //     image: imageSrc
+        // })
+        // console.log(file)
+    }
+
     render() {
         // const numberQuestions = this.props.quiz.quiz.questionNumber;
         return(
@@ -71,7 +103,11 @@ class AddQuestion extends React.Component {
                         <input type="number" className="form-control" onChange={(e) => this.setState({time: e.target.value})}/>
                     </div>
                     <button type="submit" className="btn btn-dark"><i className="fas fa-plus-circle"></i> Add</button>
-                    <button className="btn btn-dark m-2">Upload</button>
+                    <label onDrop={this.onDrop} >
+                        <input type="file" accept="image/*" className="btn btn-dark m-2" onChange={this.onFileChange}/>
+                        <img src={this.state.imageSrc}/>
+                    </label>
+                    
                     {/* <input type="submit" className="btn btn-dark" value="Add"/> */}
                 </form>
             </div>

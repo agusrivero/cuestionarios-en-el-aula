@@ -56,6 +56,7 @@ exports.viewQuiz = (req, res, next) => {
     const quizId = req.params.id;
     models.quiz.findByPk(quizId, {include: [models.alumno, models.pregunta]})
     .then(quiz => {
+        // console.log("MI QUIIIIIIIIS", quiz.pregunta.pregunta.id)
         res.send(quiz)
         /*models.pregunta.findAll({where: {quizId: quiz.id}})
         .then(preguntas => {

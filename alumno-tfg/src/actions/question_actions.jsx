@@ -10,7 +10,8 @@ export const newQuestion = (quizId, pregunta, history) => disptach => {
     const answer3 = pregunta.answer3;
     const correct = pregunta.correct;
     const time = pregunta.time;
-    axios.post('/new/question/'+quizId, {question, answer0, answer1, answer2, answer3, correct, time})
+    const image = pregunta.imageSrc;
+    axios.post('/new/question/'+quizId, {question, answer0, answer1, answer2, answer3, correct, time, image})
     .then(res => {
         console.log("Added")
         history.push('/view/quiz/'+quizId)

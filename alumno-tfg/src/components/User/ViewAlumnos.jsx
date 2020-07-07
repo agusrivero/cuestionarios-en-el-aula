@@ -32,10 +32,14 @@ class ViewAlumnos extends React.Component {
     render() {
         const alumnos = this.state.alumnos
         const alumnosList = alumnos.map((alumno) => {
+            console.log(alumno.createdAt)
             return(
                 <tr key={alumno.id}>
                     <td >
                         {alumno.username}
+                    </td>
+                    <td className="d-none">
+                        {alumno.createdAt}
                     </td>
                     <td className="text-right">
                         {alumno.score || 0}
@@ -52,6 +56,7 @@ class ViewAlumnos extends React.Component {
                     <thead>
                         <tr>
                             <th>Alumno</th>
+                            <th className="d-none">Creado</th>
                             <th className="text-right">Puntuación</th>
                         </tr>
                         

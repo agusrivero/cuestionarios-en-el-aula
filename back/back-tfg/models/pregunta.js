@@ -29,6 +29,9 @@ module.exports = function (sequelize, DataTypes) {
             },
             finished: {
                 type: DataTypes.BOOLEAN
+            },
+            image: {
+                type: DataTypes.STRING
             }
         });
 };

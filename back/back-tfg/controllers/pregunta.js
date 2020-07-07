@@ -10,7 +10,8 @@ exports.allowConections = (req, res, next) => {
 
 exports.newQuestion = (req, res, next) => {
     const {id} = req.params;
-    const {question, answer0, answer1, answer2, answer3, correct, time} = req.body;
+    const {question, answer0, answer1, answer2, answer3, correct, time, image} = req.body;
+    const imgStr = ""+image+""
     const preg = models.pregunta.build({
         question: question,
         answer0: answer0,
@@ -19,9 +20,10 @@ exports.newQuestion = (req, res, next) => {
         answer3: answer3,
         correctAnswer: correct,
         time: time,
-        quizId: id
+        quizId: id,
+        image: imgStr
     })
-    preg.save({fields: ["question", "answer0", "answer1", "answer2", "answer3", "correctAnswer", "time", "quizId"]})
+    preg.save({fields: ["question", "answer0", "answer1", "answer2", "answer3", "correctAnswer", "time","image", "quizId"]})
     .then(pregunta => {
         models.quiz.findByPk(id)
         .then(quiz => {

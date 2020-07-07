@@ -1,5 +1,17 @@
 var express = require('express');
 var router = express.Router();
+// const multer = require('multer')
+// const multerConfig = {
+//     storage: memory.diskStorage({
+//         destination: (req, file, next) => {
+//             next(null, './public/images')
+//         },
+//         filename: (req, file, next) => {
+//             console.log(file)
+//         }
+//     }),
+    
+// }
 
 const sessionController = require("../controllers/session");
 const userController = require("../controllers/user");
